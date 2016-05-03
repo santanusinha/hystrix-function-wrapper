@@ -8,6 +8,46 @@
     <artifactId>hystrix-function-wrapper</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <distributionManagement>
+        <repository>
+            <id>clojars</id>
+            <name>Clojars repository</name>
+            <url>https://clojars.org/repo</url>
+        </repository>
+    </distributionManagement>
+
+    <scm>
+        <connection>scm:git:https://github.com/santanusinha/hystrix-function-wrapper.git</connection>
+        <developerConnection>scm:git:https://github.com/santanusinha/hystrix-function-wrapper.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/santanusinha/hystrix-function-wrapper.git</url>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>santanusinha</id>
+            <name>Santanu Sinha</name>
+            <email>santanu.sinha@gmail.com</email>
+        </developer>
+    </developers>
+
+    <repositories>
+        <repository>
+            <id>clojars</id>
+            <name>Clojars repository</name>
+            <url>https://clojars.org/repo</url>
+        </repository>
+    </repositories>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <dropwizard.version>1.0.0-rc2</dropwizard.version>
