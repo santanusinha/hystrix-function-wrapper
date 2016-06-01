@@ -16,34 +16,24 @@
 
 package io.appform.core.hystrix;
 
-import com.netflix.hystrix.HystrixObservableCommand;
-import rx.Observable;
+import com.netflix.hystrix.HystrixCommand;
 
 /**
  * Command that returns the single element
  */
 public class GenericHystrixCommand<ReturnType> {
 
-    private final HystrixObservableCommand.Setter setter;
+    private final HystrixCommand.Setter setter;
 
-    public GenericHystrixCommand(HystrixObservableCommand.Setter setter) {
+    public GenericHystrixCommand(HystrixCommand.Setter setter) {
         this.setter = setter;
     }
 
-    public HystrixObservableCommand<ReturnType> executor(HandlerAdapter<ReturnType> function) throws Exception {
-        return new HystrixObservableCommand<ReturnType>(setter) {
+    public HystrixCommand<ReturnType> executor(HandlerAdapter<ReturnType> function) throws Exception {
+        return new HystrixCommand<ReturnType>(setter) {
             @Override
-            protected Observable<ReturnType> construct() {
-                return Observable.create(observer -> {
-                    if(!observer.isUnsubscribed()) {
-                        try {
-                            observer.onNext(function.run());
-                            observer.onCompleted();
-                        } catch (Throwable t) {
-                            observer.onError(t);
-                        }
-                    }
-                });
+            protected ReturnType run() throws Exception {
+                return function.run();
             }
 
         };

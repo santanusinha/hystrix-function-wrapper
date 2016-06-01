@@ -1,7 +1,11 @@
 package io.appform.core.hystrix;
 
+import com.hystrix.configurator.config.HystrixConfig;
+import com.hystrix.configurator.core.HystrixConfigurationFactory;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import rx.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +14,11 @@ import java.util.List;
  * Test for {@link CommandFactory}
  */
 public class CommandFactoryTest {
+
+    @Before
+    public void setup() {
+        HystrixConfigurationFactory.init(new HystrixConfig());
+    }
 
     @Test
     public void testCreate() throws Exception {
@@ -25,9 +34,10 @@ public class CommandFactoryTest {
         List<Boolean> list = new ArrayList<>();
         list.add(true);
         list.add(true);
-        List<Boolean> result = CommandFactory.<Boolean>createCollectionCommand("test", "testList")
+        List<Boolean> result = CommandFactory.<List<Boolean>>create("test", "testList")
                 .executor(() -> list)
                 .toObservable()
+                .flatMap(Observable::from)
                 .toList()
                 .toBlocking()
                 .single();

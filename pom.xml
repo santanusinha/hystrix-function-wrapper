@@ -52,6 +52,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <dropwizard.version>1.0.0-rc2</dropwizard.version>
         <hystrix.version>1.4.21</hystrix.version>
+        <hystrix.configurator.version>0.0.5</hystrix.configurator.version>
         <junit.version>4.12</junit.version>
     </properties>
 
@@ -60,6 +61,11 @@
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-core</artifactId>
             <version>${hystrix.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hystrix</groupId>
+            <artifactId>hystrix-configurator</artifactId>
+            <version>${hystrix.configurator.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
