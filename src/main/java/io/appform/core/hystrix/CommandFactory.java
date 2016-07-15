@@ -18,15 +18,23 @@ package io.appform.core.hystrix;
 
 import com.hystrix.configurator.core.HystrixConfigurationFactory;
 
+import java.util.UUID;
+
 /**
  * Builds hystrix command
  */
 public class CommandFactory {
 
     public static <ReturnType> GenericHystrixCommand<ReturnType> create(String group,
-                                                                        String command,
-                                                                        String traceId) {
-        return new GenericHystrixCommand<>(HystrixConfigurationFactory.getCommandConfiguration(commandKey(group, command)),traceId);
+                                                                        String command, String traceId) {
+        return new GenericHystrixCommand<>(HystrixConfigurationFactory.getCommandConfiguration(commandKey(group, command)),
+                traceId);
+
+    }
+
+    public static <ReturnType> GenericHystrixCommand<ReturnType> create(String group,
+                                                                        String command) {
+        return create(group,command, UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
 
     }
 

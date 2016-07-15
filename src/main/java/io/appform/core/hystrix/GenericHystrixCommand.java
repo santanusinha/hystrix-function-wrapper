@@ -23,7 +23,7 @@ import org.slf4j.MDC;
  */
 public class GenericHystrixCommand<ReturnType> {
 
-    public final static String TRACE_ID ="TRACE_ID";
+    public final static String TRACE_ID ="TRACE-ID";
 
     private final HystrixCommand.Setter setter;
 
