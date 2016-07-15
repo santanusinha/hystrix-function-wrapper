@@ -15,25 +15,35 @@
  */
 
 package io.appform.core.hystrix;
-
 import com.netflix.hystrix.HystrixCommand;
+import org.slf4j.MDC;
 
 /**
  * Command that returns the single element
  */
 public class GenericHystrixCommand<ReturnType> {
 
+    public final static String TRACE_ID ="TRACE_ID";
+
     private final HystrixCommand.Setter setter;
 
-    public GenericHystrixCommand(HystrixCommand.Setter setter) {
+    private final String traceId;
+
+    public GenericHystrixCommand(HystrixCommand.Setter setter,String traceId) {
         this.setter = setter;
+        this.traceId = traceId;
     }
 
     public HystrixCommand<ReturnType> executor(HandlerAdapter<ReturnType> function) throws Exception {
         return new HystrixCommand<ReturnType>(setter) {
             @Override
             protected ReturnType run() throws Exception {
-                return function.run();
+                try {
+                    MDC.put(TRACE_ID, traceId);
+                    return function.run();
+                }finally {
+                    MDC.remove(TRACE_ID);
+                }
             }
 
         };

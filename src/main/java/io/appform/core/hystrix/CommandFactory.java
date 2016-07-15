@@ -24,8 +24,9 @@ import com.hystrix.configurator.core.HystrixConfigurationFactory;
 public class CommandFactory {
 
     public static <ReturnType> GenericHystrixCommand<ReturnType> create(String group,
-                                                                       String command) {
-        return new GenericHystrixCommand<>(HystrixConfigurationFactory.getCommandConfiguration(commandKey(group, command)));
+                                                                        String command,
+                                                                        String traceId) {
+        return new GenericHystrixCommand<>(HystrixConfigurationFactory.getCommandConfiguration(commandKey(group, command)),traceId);
 
     }
 
