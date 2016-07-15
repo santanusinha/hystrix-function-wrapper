@@ -26,9 +26,10 @@ import java.util.UUID;
 public class CommandFactory {
 
     public static <ReturnType> GenericHystrixCommand<ReturnType> create(
-            String group, String command, String traceId) {
-        return new GenericHystrixCommand<>(HystrixConfigurationFactory.getCommandConfiguration(commandKey(group, command)),
-                traceId);
+                                    String group, String command, String traceId) {
+        return new GenericHystrixCommand<>(
+                        HystrixConfigurationFactory.getCommandConfiguration(commandKey(group, command)),
+                        traceId);
 
     }
 
