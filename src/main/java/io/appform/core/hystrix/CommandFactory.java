@@ -25,15 +25,15 @@ import java.util.UUID;
  */
 public class CommandFactory {
 
-    public static <ReturnType> GenericHystrixCommand<ReturnType> create(String group,
-                                                                        String command, String traceId) {
+    public static <ReturnType> GenericHystrixCommand<ReturnType> create(
+            String group, String command, String traceId) {
         return new GenericHystrixCommand<>(HystrixConfigurationFactory.getCommandConfiguration(commandKey(group, command)),
                 traceId);
 
     }
 
-    public static <ReturnType> GenericHystrixCommand<ReturnType> create(String group,
-                                                                        String command) {
+    public static <ReturnType> GenericHystrixCommand<ReturnType> create(
+            String group, String command) {
         return create(group,command, UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
 
     }
