@@ -6,15 +6,7 @@
 
     <groupId>io.appform.core</groupId>
     <artifactId>hystrix-function-wrapper</artifactId>
-    <version>1.0.0</version>
-
-    <distributionManagement>
-        <repository>
-            <id>clojars</id>
-            <name>Clojars repository</name>
-            <url>https://clojars.org/repo</url>
-        </repository>
-    </distributionManagement>
+    <version>1.1.0-SNAPSHOT-R</version>
 
     <scm>
         <connection>scm:git:https://github.com/santanusinha/hystrix-function-wrapper.git</connection>
@@ -61,11 +53,6 @@
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-core</artifactId>
             <version>${hystrix.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hystrix</groupId>
-            <artifactId>hystrix-configurator</artifactId>
-            <version>${hystrix.configurator.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

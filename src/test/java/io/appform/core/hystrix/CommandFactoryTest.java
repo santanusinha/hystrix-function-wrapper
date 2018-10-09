@@ -1,7 +1,8 @@
 package io.appform.core.hystrix;
 
-import com.hystrix.configurator.config.HystrixConfig;
-import com.hystrix.configurator.core.HystrixConfigurationFactory;
+import com.netflix.hystrix.HystrixCommand;
+import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,10 @@ public class CommandFactoryTest {
 
     @Before
     public void setup() {
-        HystrixConfigurationFactory.init(new HystrixConfig());
+        CommandFactory.init((group, command) ->
+                HystrixCommand.Setter
+                        .withGroupKey(HystrixCommandGroupKey.Factory.asKey(group))
+                        .andCommandKey(HystrixCommandKey.Factory.asKey(command)));
     }
 
     @Test
