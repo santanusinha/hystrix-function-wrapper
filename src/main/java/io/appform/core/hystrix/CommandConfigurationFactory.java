@@ -4,6 +4,6 @@ import com.netflix.hystrix.HystrixCommand;
 
 public interface CommandConfigurationFactory {
 
-    HystrixCommand.Setter commandConfig(String group, String command);
+    HystrixCommand.Setter provide(String group, String command);
 
 }

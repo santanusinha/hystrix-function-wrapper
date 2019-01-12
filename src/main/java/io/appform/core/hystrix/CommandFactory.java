@@ -36,7 +36,7 @@ public class CommandFactory {
         if (factory == null) {
             throw new RuntimeException("Please call initialize() to setup command factory");
         }
-        return new GenericHystrixCommand<>(factory.commandConfig(group, command), traceId);
+        return new GenericHystrixCommand<>(factory.provide(group, command), traceId);
     }
 
     public static <ReturnType> GenericHystrixCommand<ReturnType> create(String group,

@@ -8,6 +8,14 @@
     <artifactId>hystrix-function-wrapper</artifactId>
     <version>1.1.1-SNAPSHOT</version>
 
+    <distributionManagement>
+        <repository>
+            <id>clojars</id>
+            <name>Clojars repository</name>
+            <url>https://clojars.org/repo</url>
+        </repository>
+    </distributionManagement>
+
     <scm>
         <connection>scm:git:https://github.com/santanusinha/hystrix-function-wrapper.git</connection>
         <developerConnection>scm:git:https://github.com/santanusinha/hystrix-function-wrapper.git</developerConnection>
