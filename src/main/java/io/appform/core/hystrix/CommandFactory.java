@@ -30,16 +30,18 @@ public class CommandFactory {
     }
 
 
-    public static <ReturnType> GenericHystrixCommand<ReturnType> create(
-                                    String group, String command, String traceId) {
+    public static <ReturnType> GenericHystrixCommand<ReturnType> create(String group,
+                                                                        String command,
+                                                                        String traceId) {
         if (factory == null) {
             throw new RuntimeException("Please call initialize() to setup command factory");
         }
-        return new GenericHystrixCommand<>(factory.commandConfig(group, traceId), traceId);
+        return new GenericHystrixCommand<>(factory.commandConfig(group, command), traceId);
     }
 
-    public static <ReturnType> GenericHystrixCommand<ReturnType> create(String group, String command) {
-        return create(group,command, UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+    public static <ReturnType> GenericHystrixCommand<ReturnType> create(String group,
+                                                                        String command) {
+        return create(group, command, UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
     }
 
 }
