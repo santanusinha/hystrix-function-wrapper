@@ -63,6 +63,11 @@
             <version>${hystrix.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.hystrix</groupId>
+            <artifactId>hystrix-configurator</artifactId>
+            <version>${hystrix.configurator.version}</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
