@@ -32,12 +32,12 @@ public class GenericHystrixCommand<ReturnType> {
 
     private final String traceId;
 
-    private final Map threadContext;
+    private final Map parentThreadContext;
 
     public GenericHystrixCommand(HystrixCommand.Setter setter, String traceId) {
         this.setter = setter;
         this.traceId = traceId;
-        threadContext = MDC.getCopyOfContextMap();
+        parentThreadContext = MDC.getCopyOfContextMap();
     }
 
     public HystrixCommand<ReturnType> executor(HandlerAdapter<ReturnType> function) throws Exception {
@@ -45,7 +45,9 @@ public class GenericHystrixCommand<ReturnType> {
             @Override
             protected ReturnType run() throws Exception {
                 try {
-                    MDC.setContextMap(threadContext);
+                    if (parentThreadContext != null){
+                        MDC.setContextMap(parentThreadContext);
+                    }
                     MDC.put(TRACE_ID, traceId);
                     return function.run();
                 } finally {
