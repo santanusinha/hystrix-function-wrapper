@@ -15,37 +15,43 @@
  */
 
 package io.appform.core.hystrix;
+
 import com.netflix.hystrix.HystrixCommand;
 import org.slf4j.MDC;
+
+import java.util.Map;
 
 /**
  * Command that returns the single element
  */
 public class GenericHystrixCommand<ReturnType> {
 
-    public final static String TRACE_ID ="TRACE-ID";
+    public final static String TRACE_ID = "TRACE-ID";
 
     private final HystrixCommand.Setter setter;
 
     private final String traceId;
 
-    public GenericHystrixCommand(HystrixCommand.Setter setter,String traceId) {
+    public GenericHystrixCommand(HystrixCommand.Setter setter, String traceId) {
         this.setter = setter;
         this.traceId = traceId;
     }
 
     public HystrixCommand<ReturnType> executor(HandlerAdapter<ReturnType> function) throws Exception {
+        final Map parentMDCContext = MDC.getCopyOfContextMap();
         return new HystrixCommand<ReturnType>(setter) {
             @Override
             protected ReturnType run() throws Exception {
                 try {
+                    if (parentMDCContext != null){
+                        MDC.setContextMap(parentMDCContext);
+                    }
                     MDC.put(TRACE_ID, traceId);
                     return function.run();
-                }finally {
-                    MDC.remove(TRACE_ID);
+                } finally {
+                    MDC.clear();
                 }
             }
-
         };
     }
 }
