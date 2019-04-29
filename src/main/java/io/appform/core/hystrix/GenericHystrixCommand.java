@@ -17,6 +17,9 @@
 package io.appform.core.hystrix;
 
 import com.netflix.hystrix.HystrixCommand;
+import io.opentracing.Scope;
+import io.opentracing.Span;
+import io.opentracing.util.GlobalTracer;
 import org.slf4j.MDC;
 
 import java.util.Map;
@@ -39,16 +42,24 @@ public class GenericHystrixCommand<ReturnType> {
 
     public HystrixCommand<ReturnType> executor(HandlerAdapter<ReturnType> function) throws Exception {
         final Map parentMDCContext = MDC.getCopyOfContextMap();
+        final Span parentActiveSpan = GlobalTracer.get() != null ? GlobalTracer.get().activeSpan() : null;
         return new HystrixCommand<ReturnType>(setter) {
             @Override
             protected ReturnType run() throws Exception {
+                Scope scope = null;
                 try {
                     if (parentMDCContext != null){
                         MDC.setContextMap(parentMDCContext);
                     }
+                    if (parentActiveSpan != null) {
+                        scope = GlobalTracer.get().scopeManager().activate(parentActiveSpan);
+                    }
                     MDC.put(TRACE_ID, traceId);
                     return function.run();
                 } finally {
+                    if (scope != null) {
+                        scope.close();
+                    }
                     MDC.clear();
                 }
             }
