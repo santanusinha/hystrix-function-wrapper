@@ -52,7 +52,7 @@ public class GenericHystrixCommand<ReturnType> {
                         MDC.setContextMap(parentMDCContext);
                     }
                     if (parentActiveSpan != null) {
-                        scope = GlobalTracer.get().scopeManager().activate(parentActiveSpan);
+                        scope = GlobalTracer.get().scopeManager().activate(parentActiveSpan, true);
                     }
                     MDC.put(TRACE_ID, traceId);
                     return function.run();
