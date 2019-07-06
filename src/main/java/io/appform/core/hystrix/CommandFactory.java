@@ -25,7 +25,7 @@ import java.util.UUID;
  */
 public class CommandFactory {
 
-    public static <ReturnType> GenericHystrixCommand<ReturnType> create(
+    public static <R> GenericHystrixCommand<R> create(
             String group, String command, String traceId) {
         return new GenericHystrixCommand<>(
                 HystrixConfigurationFactory.getCommandConfiguration(commandKey(group, command)),
@@ -33,13 +33,15 @@ public class CommandFactory {
 
     }
 
-    public static <ReturnType> GenericHystrixCommand<ReturnType> create(
+    public static <R> GenericHystrixCommand<R> create(
             String group, String command) {
-        return create(group,command, UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+        return create(group,command, UUID.randomUUID().toString().replaceAll("-", ""));
 
     }
 
     private static String commandKey(final String group, final String command) {
         return String.format("%s.%s", group, command);
     }
+
+    private CommandFactory() {}
 }

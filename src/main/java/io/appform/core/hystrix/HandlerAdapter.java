@@ -19,6 +19,7 @@ package io.appform.core.hystrix;
 /**
  * Adapter for a function
  */
+@FunctionalInterface
 public interface HandlerAdapter<T> {
     T run() throws Exception;
 }

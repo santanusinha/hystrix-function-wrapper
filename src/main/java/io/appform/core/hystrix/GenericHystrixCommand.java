@@ -27,9 +27,9 @@ import java.util.Map;
 /**
  * Command that returns the single element
  */
-public class GenericHystrixCommand<ReturnType> {
+public class GenericHystrixCommand<R> {
 
-    public final static String TRACE_ID = "TRACE-ID";
+    private static final String TRACE_ID = "TRACE-ID";
 
     private final HystrixCommand.Setter setter;
 
@@ -40,21 +40,21 @@ public class GenericHystrixCommand<ReturnType> {
         this.traceId = traceId;
     }
 
-    public HystrixCommand<ReturnType> executor(HandlerAdapter<ReturnType> function) throws Exception {
+    public HystrixCommand<R> executor(HandlerAdapter<R> function) {
         final Map parentMDCContext = MDC.getCopyOfContextMap();
         final Span parentActiveSpan = GlobalTracer.get() != null ? GlobalTracer.get().activeSpan() : null;
-        return new HystrixCommand<ReturnType>(setter) {
+        return new HystrixCommand<R>(setter) {
             @Override
-            protected ReturnType run() throws Exception {
+            protected R run() throws Exception {
                 Scope scope = null;
+                if (parentMDCContext != null){
+                    MDC.setContextMap(parentMDCContext);
+                }
+                if (parentActiveSpan != null) {
+                    scope = GlobalTracer.get().scopeManager().activate(parentActiveSpan, false);
+                }
+                MDC.put(TRACE_ID, traceId);
                 try {
-                    if (parentMDCContext != null){
-                        MDC.setContextMap(parentMDCContext);
-                    }
-                    if (parentActiveSpan != null) {
-                        scope = GlobalTracer.get().scopeManager().activate(parentActiveSpan, false);
-                    }
-                    MDC.put(TRACE_ID, traceId);
                     return function.run();
                 } finally {
                     if (scope != null) {
