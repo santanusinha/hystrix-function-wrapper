@@ -6,7 +6,7 @@
 
     <groupId>io.appform.core</groupId>
     <artifactId>hystrix-function-wrapper</artifactId>
-    <version>1.1.4-SNAPSHOT</version>
+    <version>1.1.4</version>
     <name>Hystrix Function Wrapper</name>
     <description>An utility lib that allows lambdas to be wrapped in hystrix commands</description>
     <url>https://github.com/santanusinha/hystrix-function-wrapper</url>
