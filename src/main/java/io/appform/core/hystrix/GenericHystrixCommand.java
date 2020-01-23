@@ -60,7 +60,7 @@ public class GenericHystrixCommand<R> {
                     if (scope != null) {
                         scope.close();
                     }
-                    MDC.clear();
+                    MDC.remove(TRACE_ID);
                 }
             }
         };
