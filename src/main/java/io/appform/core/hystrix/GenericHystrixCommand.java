@@ -17,6 +17,7 @@
 package io.appform.core.hystrix;
 
 import com.netflix.hystrix.HystrixCommand;
+import com.netflix.hystrix.HystrixCommandProperties;
 import io.opentracing.Scope;
 import io.opentracing.Span;
 import io.opentracing.util.GlobalTracer;
@@ -47,7 +48,7 @@ public class GenericHystrixCommand<R> {
             @Override
             protected R run() throws Exception {
                 Scope scope = null;
-                if (parentMDCContext != null){
+                if (parentMDCContext != null) {
                     MDC.setContextMap(parentMDCContext);
                 }
                 if (parentActiveSpan != null) {
@@ -60,7 +61,15 @@ public class GenericHystrixCommand<R> {
                     if (scope != null) {
                         scope.close();
                     }
-                    MDC.remove(TRACE_ID);
+
+                    HystrixCommandProperties.ExecutionIsolationStrategy isolationStrategy =
+                            getProperties().executionIsolationStrategy().get();
+                    if (isolationStrategy == HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE) {
+                        MDC.remove(TRACE_ID);
+                    } else {
+                        MDC.clear();
+                    }
+
                 }
             }
         };
