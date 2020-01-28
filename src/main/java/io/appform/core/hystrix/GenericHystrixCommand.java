@@ -61,7 +61,6 @@ public class GenericHystrixCommand<R> {
                     if (scope != null) {
                         scope.close();
                     }
-
                     HystrixCommandProperties.ExecutionIsolationStrategy isolationStrategy =
                             getProperties().executionIsolationStrategy().get();
                     if (isolationStrategy == HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE) {
@@ -69,7 +68,6 @@ public class GenericHystrixCommand<R> {
                     } else {
                         MDC.clear();
                     }
-
                 }
             }
         };
