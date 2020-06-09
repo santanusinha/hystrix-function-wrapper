@@ -6,7 +6,7 @@
 
     <groupId>io.appform.core</groupId>
     <artifactId>hystrix-function-wrapper</artifactId>
-    <version>1.1.5</version>
+    <version>1.1.6</version>
     <name>Hystrix Function Wrapper</name>
     <description>An utility lib that allows lambdas to be wrapped in hystrix commands</description>
     <url>https://github.com/santanusinha/hystrix-function-wrapper</url>
@@ -124,6 +124,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
