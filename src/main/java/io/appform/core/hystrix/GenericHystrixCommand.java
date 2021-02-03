@@ -56,7 +56,10 @@ public class GenericHystrixCommand<R> {
                     MDC.setContextMap(parentMDCContext);
                 }
                 if (parentActiveSpan != null) {
-                    span = GlobalTracer.get().buildSpan(command).asChildOf(parentActiveSpan).start();
+                    span = GlobalTracer.get().buildSpan("hystrix")
+                            .asChildOf(parentActiveSpan)
+                            .withTag("hystrix.command", command)
+                            .start();
                     scope = GlobalTracer.get().activateSpan(span);
                 }
                 MDC.put(TRACE_ID, traceId);
