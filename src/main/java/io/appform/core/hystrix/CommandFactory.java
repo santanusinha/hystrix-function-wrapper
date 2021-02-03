@@ -29,7 +29,7 @@ public class CommandFactory {
             String group, String command, String traceId) {
         return new GenericHystrixCommand<>(
                 HystrixConfigurationFactory.getCommandConfiguration(commandKey(group, command)),
-                traceId);
+                traceId, command);
 
     }
 

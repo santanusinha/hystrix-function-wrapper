@@ -36,9 +36,12 @@ public class GenericHystrixCommand<R> {
 
     private final String traceId;
 
-    public GenericHystrixCommand(HystrixCommand.Setter setter, String traceId) {
+    private final String command;
+
+    public GenericHystrixCommand(HystrixCommand.Setter setter, String traceId, String command) {
         this.setter = setter;
         this.traceId = traceId;
+        this.command = command;
     }
 
     public HystrixCommand<R> executor(HandlerAdapter<R> function) {
@@ -47,19 +50,24 @@ public class GenericHystrixCommand<R> {
         return new HystrixCommand<R>(setter) {
             @Override
             protected R run() throws Exception {
+                Span span = null;
                 Scope scope = null;
                 if (parentMDCContext != null) {
                     MDC.setContextMap(parentMDCContext);
                 }
                 if (parentActiveSpan != null) {
-                    scope = GlobalTracer.get().scopeManager().activate(parentActiveSpan, false);
+                    span = GlobalTracer.get().buildSpan(command).asChildOf(parentActiveSpan).start();
+                    scope = GlobalTracer.get().activateSpan(span);
                 }
                 MDC.put(TRACE_ID, traceId);
                 try {
                     return function.run();
                 } finally {
-                    if (scope != null) {
+                    if(scope != null) {
                         scope.close();
+                    }
+                    if(span != null) {
+                        span.finish();
                     }
                     HystrixCommandProperties.ExecutionIsolationStrategy isolationStrategy =
                             getProperties().executionIsolationStrategy().get();
