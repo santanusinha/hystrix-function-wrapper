@@ -50,14 +50,11 @@ public class GenericHystrixCommand<R> {
         return new HystrixCommand<R>(setter) {
             @Override
             protected R run() throws Exception {
-                Span span = null;
-                Scope scope = null;
                 if (parentMDCContext != null) {
                     MDC.setContextMap(parentMDCContext);
                 }
-
-                span = TracingHandler.startChildSpan(tracer, parentActiveSpan, command);
-                scope = TracingHandler.activateSpan(tracer, span);
+                final Span span = TracingHandler.startChildSpan(tracer, parentActiveSpan, command);
+                final Scope scope = TracingHandler.activateSpan(tracer, span);
 
                 MDC.put(TRACE_ID, traceId);
                 try {
