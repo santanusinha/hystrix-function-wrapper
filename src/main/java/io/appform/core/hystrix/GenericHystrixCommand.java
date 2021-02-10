@@ -20,10 +20,9 @@ import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandProperties;
 import io.opentracing.Scope;
 import io.opentracing.Span;
-import io.opentracing.util.GlobalTracer;
-import org.slf4j.MDC;
-
+import io.opentracing.Tracer;
 import java.util.Map;
+import org.slf4j.MDC;
 
 /**
  * Command that returns the single element
@@ -46,7 +45,8 @@ public class GenericHystrixCommand<R> {
 
     public HystrixCommand<R> executor(HandlerAdapter<R> function) {
         final Map parentMDCContext = MDC.getCopyOfContextMap();
-        final Span parentActiveSpan = GlobalTracer.get() != null ? GlobalTracer.get().activeSpan() : null;
+        final Tracer tracer = TracingHandler.getTracer();
+        final Span parentActiveSpan = TracingHandler.getParentActiveSpan(tracer);
         return new HystrixCommand<R>(setter) {
             @Override
             protected R run() throws Exception {
@@ -55,23 +55,15 @@ public class GenericHystrixCommand<R> {
                 if (parentMDCContext != null) {
                     MDC.setContextMap(parentMDCContext);
                 }
-                if (parentActiveSpan != null) {
-                    span = GlobalTracer.get().buildSpan("hystrix")
-                            .asChildOf(parentActiveSpan)
-                            .withTag("hystrix.command", command)
-                            .start();
-                    scope = GlobalTracer.get().activateSpan(span);
-                }
+
+                span = TracingHandler.startChildSpan(tracer, parentActiveSpan, command);
+                scope = TracingHandler.activateSpan(tracer, span);
+
                 MDC.put(TRACE_ID, traceId);
                 try {
                     return function.run();
                 } finally {
-                    if(scope != null) {
-                        scope.close();
-                    }
-                    if(span != null) {
-                        span.finish();
-                    }
+                    TracingHandler.closeScopeAndSpan(span, scope);
                     HystrixCommandProperties.ExecutionIsolationStrategy isolationStrategy =
                             getProperties().executionIsolationStrategy().get();
                     if (isolationStrategy == HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE) {
