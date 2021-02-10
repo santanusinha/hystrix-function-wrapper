@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by kanika.khetawat on 10/02/21
+ * Utility class that handles all tracing related operations
  */
 public class TracingHandler {
     private static final Logger log = LoggerFactory.getLogger(TracingHandler.class.getSimpleName());

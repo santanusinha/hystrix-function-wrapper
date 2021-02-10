@@ -9,9 +9,6 @@ import io.opentracing.util.GlobalTracer;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * Created by kanika.khetawat on 10/02/21
- */
 public class TracingHandlerTest {
 
     @Test
