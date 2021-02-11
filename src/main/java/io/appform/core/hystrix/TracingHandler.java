@@ -4,14 +4,13 @@ import io.opentracing.Scope;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
 import io.opentracing.util.GlobalTracer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Utility class that handles all tracing related operations
  */
+@Slf4j
 public class TracingHandler {
-    private static final Logger log = LoggerFactory.getLogger(TracingHandler.class.getSimpleName());
 
     public static Tracer getTracer() {
         try {
