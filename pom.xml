@@ -6,7 +6,7 @@
 
     <groupId>io.appform.core</groupId>
     <artifactId>hystrix-function-wrapper</artifactId>
-    <version>1.1.6</version>
+    <version>1.1.7</version>
     <name>Hystrix Function Wrapper</name>
     <description>An utility lib that allows lambdas to be wrapped in hystrix commands</description>
     <url>https://github.com/santanusinha/hystrix-function-wrapper</url>
@@ -94,9 +94,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hystrix.version>1.5.18</hystrix.version>
         <hystrix.configurator.version>0.0.8</hystrix.configurator.version>
-        <opentracing.version>0.31.0</opentracing.version>
+        <opentracing.version>0.33.0</opentracing.version>
         <junit.version>4.12</junit.version>
         <log4j.version>2.13.0</log4j.version>
+        <lombok.version>1.18.12</lombok.version>
     </properties>
 
     <dependencies>
@@ -132,7 +133,12 @@
             <version>${log4j.version}</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>

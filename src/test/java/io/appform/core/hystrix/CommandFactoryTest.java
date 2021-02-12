@@ -18,12 +18,11 @@ package io.appform.core.hystrix;
 
 import com.hystrix.configurator.config.HystrixConfig;
 import com.hystrix.configurator.core.HystrixConfigurationFactory;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Test for {@link CommandFactory}
@@ -36,14 +35,14 @@ public class CommandFactoryTest {
     }
 
     @Test
-    public void testCreate() throws Exception {
+    public void testCreate() {
         Assert.assertTrue(CommandFactory.<Boolean>create("test", "test")
                 .executor(() -> true)
                 .execute());
     }
 
     @Test
-    public void testCreateCollectionCommand() throws Exception {
+    public void testCreateCollectionCommand() {
         List<Boolean> list = new ArrayList<>();
         list.add(true);
         list.add(true);
