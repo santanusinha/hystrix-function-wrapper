@@ -95,7 +95,7 @@
         <hystrix.version>1.5.18</hystrix.version>
         <hystrix.configurator.version>0.0.8</hystrix.configurator.version>
         <opentracing.version>0.33.0</opentracing.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <log4j.version>2.13.0</log4j.version>
         <lombok.version>1.18.12</lombok.version>
     </properties>
