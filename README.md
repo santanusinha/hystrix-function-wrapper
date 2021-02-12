@@ -8,7 +8,7 @@ An utility lib that allows lambdas to be wrapped in hystrix commands.
     <dependency>
         <groupId>io.appform.core</groupId>
         <artifactId>hystrix-function-wrapper</artifactId>
-        <version>1.1.4</version>
+        <version>1.1.8</version>
     </dependency>
 ```
 
