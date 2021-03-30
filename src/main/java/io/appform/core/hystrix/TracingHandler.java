@@ -37,7 +37,7 @@ public class TracingHandler {
             if (tracer == null || parentSpan == null) {
                 return null;
             }
-            return tracer.buildSpan("hystrix")
+            return tracer.buildSpan("hystrix:"+command)
                     .asChildOf(parentSpan)
                     .withTag("hystrix.command", command)
                     .start();
