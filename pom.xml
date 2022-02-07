@@ -6,7 +6,7 @@
 
     <groupId>io.appform.core</groupId>
     <artifactId>hystrix-function-wrapper</artifactId>
-    <version>1.1.9</version>
+    <version>1.1.10</version>
     <name>Hystrix Function Wrapper</name>
     <description>An utility lib that allows lambdas to be wrapped in hystrix commands</description>
     <url>https://github.com/santanusinha/hystrix-function-wrapper</url>
@@ -93,7 +93,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hystrix.version>1.5.18</hystrix.version>
-        <hystrix.configurator.version>0.0.8</hystrix.configurator.version>
+        <hystrix.configurator.version>0.0.9</hystrix.configurator.version>
         <opentracing.version>0.33.0</opentracing.version>
         <junit.version>4.13.1</junit.version>
         <log4j.version>2.13.0</log4j.version>
