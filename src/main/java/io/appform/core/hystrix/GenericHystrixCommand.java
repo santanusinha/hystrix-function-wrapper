@@ -24,6 +24,7 @@ import io.opentracing.Span;
 import io.opentracing.Tracer;
 import java.util.Map;
 
+import lombok.Getter;
 import org.slf4j.MDC;
 
 /**
@@ -33,10 +34,12 @@ public class GenericHystrixCommand<R> {
 
     private static final String TRACE_ID = "TRACE-ID";
 
+    @Getter
     private final String group;
 
     private final String traceId;
 
+    @Getter
     private final String command;
 
     public GenericHystrixCommand(String group, String traceId, String command) {
