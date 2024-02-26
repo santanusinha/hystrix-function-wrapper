@@ -16,12 +16,15 @@
 
 package io.appform.core.hystrix;
 
+import com.hystrix.configurator.core.HystrixConfigurationFactory;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandProperties;
 import io.opentracing.Scope;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
 import java.util.Map;
+
+import lombok.Getter;
 import org.slf4j.MDC;
 
 /**
@@ -31,14 +34,16 @@ public class GenericHystrixCommand<R> {
 
     private static final String TRACE_ID = "TRACE-ID";
 
-    private final HystrixCommand.Setter setter;
+    @Getter
+    private final String group;
 
     private final String traceId;
 
+    @Getter
     private final String command;
 
-    public GenericHystrixCommand(HystrixCommand.Setter setter, String traceId, String command) {
-        this.setter = setter;
+    public GenericHystrixCommand(String group, String traceId, String command) {
+        this.group = group;
         this.traceId = traceId;
         this.command = command;
     }
@@ -47,6 +52,7 @@ public class GenericHystrixCommand<R> {
         final Map parentMDCContext = MDC.getCopyOfContextMap();
         final Tracer tracer = TracingHandler.getTracer();
         final Span parentActiveSpan = TracingHandler.getParentActiveSpan(tracer);
+        final HystrixCommand.Setter setter = HystrixConfigurationFactory.getCommandConfiguration(commandKey(group, command));
         return new HystrixCommand<R>(setter) {
             @Override
             protected R run() throws Exception {
@@ -71,5 +77,9 @@ public class GenericHystrixCommand<R> {
                 }
             }
         };
+    }
+
+    private static String commandKey(final String group, final String command) {
+        return String.format("%s.%s", group, command);
     }
 }
